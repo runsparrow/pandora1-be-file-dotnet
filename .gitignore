@@ -1,0 +1,11 @@
+.vs
+*.dll
+bin
+obj
+PublishProfiles
+Log
+.vscode
+uploadFiles
+Logs
+wwwroot
+GatewayApi/logs

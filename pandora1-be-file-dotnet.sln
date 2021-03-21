@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pandora1-be-file-dotnet", "pandora1-be-file-dotnet\pandora1-be-file-dotnet.csproj", "{C814C144-EE1E-4259-B8E5-32432A3AA882}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C814C144-EE1E-4259-B8E5-32432A3AA882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C814C144-EE1E-4259-B8E5-32432A3AA882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C814C144-EE1E-4259-B8E5-32432A3AA882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C814C144-EE1E-4259-B8E5-32432A3AA882}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D58FF796-BDF1-4B2D-9971-ABA515B4EAAD}
+	EndGlobalSection
+EndGlobal
