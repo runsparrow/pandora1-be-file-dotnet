@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>pandora1_be_file_dotnet</ActiveDebugProfile>
+    <ActiveDebugProfile>prod</ActiveDebugProfile>
   </PropertyGroup>
 </Project>
