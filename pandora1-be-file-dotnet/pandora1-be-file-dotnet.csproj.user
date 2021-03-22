@@ -4,7 +4,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>prod</ActiveDebugProfile>
+    <ActiveDebugProfile>dev</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>D:\workspace\source\pandora1-be-file-dotnet\pandora1-be-file-dotnet\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
