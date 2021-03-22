@@ -4,5 +4,95 @@
         <name>pandora1-be-file-dotnet</name>
     </assembly>
     <members>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToInt(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToInt(System.Object,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <param name="errorValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToMoney(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToMoney(System.Object,System.Double)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <param name="errorValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToString(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToString(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <param name="errorValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToDecimal(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToDecimal(System.Object,System.Decimal)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <param name="errorValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToDate(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToDate(System.Object,System.DateTime)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <param name="errorValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToBool(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="thisValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.GetTime(System.Int64,System.Boolean)">
+            <summary>
+            时间戳反转为时间，有很多中翻转方法，但是，请不要使用过字符串（string）进行操作，大家都知道字符串会很慢！
+            </summary>
+            <param name="TimeStamp">时间戳</param>
+            <param name="AccurateToMilliseconds">是否精确到毫秒</param>
+            <returns>返回一个日期时间</returns>
+        </member>
     </members>
 </doc>

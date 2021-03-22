@@ -41,6 +41,7 @@ namespace pandora1_be_file_dotnet
         {
             services.AddSingleton(new Appsettings(Configuration));
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddCorsSetup();
             services.AddSqlsugarSetup();
             services.AddSwaggerSetup();
             services.AddControllers();
@@ -55,6 +56,8 @@ namespace pandora1_be_file_dotnet
 
             app.UseSwaggerMildd(() => GetType().GetTypeInfo().Assembly.GetManifestResourceStream("pandora1_be_file_dotnet.index.html"));
 
+            app.UseCors("AllowCorsPolicys");
+
             var option = new RewriteOptions();
             option.AddRedirect("^$", "spec"); 
             app.UseRewriter(option);
@@ -63,6 +66,7 @@ namespace pandora1_be_file_dotnet
             {
                 Path = "/welcome"
             });
+
 
             app.UseStaticFiles(new StaticFileOptions()
             {
