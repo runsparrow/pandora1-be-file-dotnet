@@ -28,9 +28,10 @@ namespace pandora1_be_file_dotnet.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private async Task MergeFileAsync(string rootDir, string fileName, string tempDir)
         {
-            var yearMonthDir = DateTime.Now.ToString("yyyyMM");
+            var yearDir = DateTime.Now.ToString("yyyy");
+            var monthDir = DateTime.Now.ToString("MM");
             var dayDir = DateTime.Now.ToString("dd");
-            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearMonthDir, dayDir);
+            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearDir, monthDir, dayDir);
             var dir = tempDir;
             var files = Directory.GetFiles(dir);
             var finalDir = envPath;
