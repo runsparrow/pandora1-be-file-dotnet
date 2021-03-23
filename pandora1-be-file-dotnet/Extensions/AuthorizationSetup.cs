@@ -31,11 +31,8 @@ namespace pandora1_be_file_dotnet.Extensions
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        //Audience
                         ValidAudience = Appsettings.app(new string[] { "JwtSettings", "Audience" }),
-                        //Issuer，这两项和前面签发jwt的设置一致
                         ValidIssuer = Appsettings.app(new string[] { "JwtSettings", "Issuer" }),
-                        //SecretKey
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Appsettings.app(new string[] { "JwtSettings", "SecretKey" }))),
                     };
                 });
