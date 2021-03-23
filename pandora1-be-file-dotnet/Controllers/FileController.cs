@@ -23,10 +23,63 @@ namespace pandora1_be_file_dotnet.Controllers
             _logger = logger;
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        private async Task MergeFileAsync(string rootDir, int flag,string fileName, string tempDir)
+        {
+            var yearDir = DateTime.Now.ToString("yyyy");
+            var monthDir = DateTime.Now.ToString("MM");
+            var dayDir = DateTime.Now.ToString("dd");
+            string envPath = Path.Combine(rootDir , flag==0?Appsettings.app(new string[] { "UploadFilePath", "PicPath" }): Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearDir, monthDir, dayDir);
+            var dir = tempDir;
+            var files = Directory.GetFiles(dir);
+            var finalDir = envPath;
+            if (!Directory.Exists(finalDir))
+            {
+                Directory.CreateDirectory(finalDir);
+            }
+            var finalPath = Path.Combine(finalDir, fileName);
+            using (var fs = new FileStream(finalPath, FileMode.Create))
+            {
+                var fileParts = files.OrderBy(x => x.Length).ThenBy(x => x);
+                foreach (var part in fileParts)
+                {
+                    var bytes = await System.IO.File.ReadAllBytesAsync(part);
+                    await fs.WriteAsync(bytes, 0, bytes.Length);
+                    bytes = null;
+                    System.IO.File.Delete(part);
+                }
+                await fs.FlushAsync();
+                fs.Close();
+                Directory.Delete(dir);
+            }
+        }
+
         [HttpPost]
         public async Task<ApiResponse<FileResponseDto>> Upload_Big_File([FromServices] IWebHostEnvironment environment)
         {
-            string envPath = environment.WebRootPath+ Appsettings.app(new string[] { "TempPath"});
+            List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif",".bmp" };
+            List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v",".wmv",".avi" , ".flv" };
+            ApiResponse<FileResponseDto> response = new ApiResponse<FileResponseDto>();
+            if (Request.ContentLength==0)
+            {
+                throw new ServiceException(ErrorDescriptor.FILE_NULL);
+            }
+            var file = Request.Form.Files["file"];
+            string suffix = Request.Form["suffix"];
+            int flag = -1;
+            if (allowPicSuffixAr.Contains(suffix))
+            {
+                flag = 0;
+            }
+            if (allowViewSuffixAr.Contains(suffix))
+            {
+                flag = 1;
+            }
+            if (flag==-1)
+            {
+                throw new ServiceException(ErrorDescriptor.FILE_FORMAT_ERROR);
+            }
+            string envPath = Path.Combine(environment.WebRootPath, Appsettings.app(new string[] { "UploadFilePath", "TempPath" }));
             var fileName = Request.Form["name"];
             var index = Request.Form["chunk"].ToString().ObjToInt();
             var maxChunk = Request.Form["maxChunk"].ToString().ObjToInt();
@@ -38,16 +91,17 @@ namespace pandora1_be_file_dotnet.Controllers
             }
             var filePath = Path.Combine(dir, index.ToString());
 
-            var file = Request.Form.Files["file"];
+            
             var filePathWithFileName = string.Concat(filePath, fileName);
             using (var stream = new FileStream(filePathWithFileName, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            ApiResponse<FileResponseDto> response = new ApiResponse<FileResponseDto>();
+           
             var fileResponseDto = new FileResponseDto();
             if (index == maxChunk - 1)
             {
+                await MergeFileAsync(environment.WebRootPath, flag, fileName, dir);
                 fileResponseDto.Completed = true;
             }
             response.Data = fileResponseDto;

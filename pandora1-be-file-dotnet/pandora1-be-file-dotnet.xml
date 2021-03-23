@@ -4,6 +4,9 @@
         <name>pandora1-be-file-dotnet</name>
     </assembly>
     <members>
+        <member name="M:pandora1_be_file_dotnet.Helpers.ServiceException.#ctor(pandora1_be_file_dotnet.Helpers.ErrorDescriptor)">
+            <param name="descriptor"></param>
+        </member>
         <member name="M:pandora1_be_file_dotnet.Helpers.UtilConvert.ObjToInt(System.Object)">
             <summary>
             

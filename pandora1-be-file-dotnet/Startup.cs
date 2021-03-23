@@ -10,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using pandora1_be_file_dotnet.Extensions;
+using pandora1_be_file_dotnet.Filters;
 using pandora1_be_file_dotnet.Helpers;
 using pandora1_be_file_dotnet.Middlewares;
 using System;
@@ -44,7 +45,10 @@ namespace pandora1_be_file_dotnet
             services.AddCorsSetup();
             services.AddSqlsugarSetup();
             services.AddSwaggerSetup();
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<GlobalExceptionsFilter>();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
