@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pandora1_be_file_dotnet.Helpers;
@@ -14,6 +15,7 @@ namespace pandora1_be_file_dotnet.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
@@ -26,10 +28,9 @@ namespace pandora1_be_file_dotnet.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private async Task MergeFileAsync(string rootDir, string fileName, string tempDir)
         {
-            var yearDir = DateTime.Now.ToString("yyyy");
-            var monthDir = DateTime.Now.ToString("MM");
+            var yearMonthDir = DateTime.Now.ToString("yyyyMM");
             var dayDir = DateTime.Now.ToString("dd");
-            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearDir, monthDir, dayDir);
+            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearMonthDir, dayDir);
             var dir = tempDir;
             var files = Directory.GetFiles(dir);
             var finalDir = envPath;
