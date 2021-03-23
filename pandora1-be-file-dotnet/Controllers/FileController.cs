@@ -24,12 +24,12 @@ namespace pandora1_be_file_dotnet.Controllers
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
-        private async Task MergeFileAsync(string rootDir, int flag,string fileName, string tempDir)
+        private async Task MergeFileAsync(string rootDir, string fileName, string tempDir)
         {
             var yearDir = DateTime.Now.ToString("yyyy");
             var monthDir = DateTime.Now.ToString("MM");
             var dayDir = DateTime.Now.ToString("dd");
-            string envPath = Path.Combine(rootDir , flag==0?Appsettings.app(new string[] { "UploadFilePath", "PicPath" }): Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearDir, monthDir, dayDir);
+            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearDir, monthDir, dayDir);
             var dir = tempDir;
             var files = Directory.GetFiles(dir);
             var finalDir = envPath;
@@ -57,8 +57,8 @@ namespace pandora1_be_file_dotnet.Controllers
         [HttpPost]
         public async Task<ApiResponse<FileResponseDto>> Upload_Big_File([FromServices] IWebHostEnvironment environment)
         {
-            List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif",".bmp" };
-            List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v",".wmv",".avi" , ".flv" };
+            //List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif",".bmp" };
+            //List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v",".wmv",".avi" , ".flv" };
             ApiResponse<FileResponseDto> response = new ApiResponse<FileResponseDto>();
             if (Request.ContentLength==0)
             {
@@ -66,19 +66,19 @@ namespace pandora1_be_file_dotnet.Controllers
             }
             var file = Request.Form.Files["file"];
             string suffix = Request.Form["suffix"];
-            int flag = -1;
-            if (allowPicSuffixAr.Contains(suffix))
-            {
-                flag = 0;
-            }
-            if (allowViewSuffixAr.Contains(suffix))
-            {
-                flag = 1;
-            }
-            if (flag==-1)
-            {
-                throw new ServiceException(ErrorDescriptor.FILE_FORMAT_ERROR);
-            }
+            //int flag = -1;
+            //if (allowPicSuffixAr.Contains(suffix))
+            //{
+            //    flag = 0;
+            //}
+            //if (allowViewSuffixAr.Contains(suffix))
+            //{
+            //    flag = 1;
+            //}
+            //if (flag==-1)
+            //{
+            //    throw new ServiceException(ErrorDescriptor.FILE_FORMAT_ERROR);
+            //}
             string envPath = Path.Combine(environment.WebRootPath, Appsettings.app(new string[] { "UploadFilePath", "TempPath" }));
             var fileName = Request.Form["name"];
             var index = Request.Form["chunk"].ToString().ObjToInt();
@@ -101,7 +101,7 @@ namespace pandora1_be_file_dotnet.Controllers
             var fileResponseDto = new FileResponseDto();
             if (index == maxChunk - 1)
             {
-                await MergeFileAsync(environment.WebRootPath, flag, fileName, dir);
+                await MergeFileAsync(environment.WebRootPath, fileName, dir);
                 fileResponseDto.Completed = true;
             }
             response.Data = fileResponseDto;
