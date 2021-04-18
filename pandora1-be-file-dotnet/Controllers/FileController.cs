@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pandora1_be_file_dotnet.Helpers;
@@ -15,7 +16,7 @@ namespace pandora1_be_file_dotnet.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
-    [Authorize]
+    //[Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
@@ -108,6 +109,13 @@ namespace pandora1_be_file_dotnet.Controllers
             }
             response.Data = fileResponseDto;
             return response;
+        }
+
+        [HttpPost]
+        public async Task<ApiResponse<FileResponseDto>> Upload_Single_File(IFormFile file,[FromServices] IWebHostEnvironment environment)
+        {
+            var uploadFIle = file;
+            return null;
         }
     }
 }
