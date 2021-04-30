@@ -31,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="fourlifecode-com-iis-0421170611.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="pandora1-be-file-dotnet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
