@@ -5,6 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>dev</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>D:\workspace\source\pandora1-be-file-dotnet\pandora1-be-file-dotnet\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>FolderProfile</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
