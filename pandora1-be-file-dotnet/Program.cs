@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace pandora1_be_file_dotnet
@@ -22,7 +23,15 @@ namespace pandora1_be_file_dotnet
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 8003, listenOptions =>
+                        {
+                            listenOptions.UseHttps("webapi-xs-com-iis-0505161240.pfx", "fourlifecode");
+                        });
+                    })
+                    .UseStartup<Startup>();
                 });
     }
 }
