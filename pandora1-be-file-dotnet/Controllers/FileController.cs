@@ -112,10 +112,30 @@ namespace pandora1_be_file_dotnet.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse<FileResponseDto>> Upload_Single_File(IFormFile file,[FromServices] IWebHostEnvironment environment)
+        public async Task<ApiResponse<SingleFileResponseDto>> Upload_Single_File(IFormFile file,[FromServices] IWebHostEnvironment environment)
         {
+            ApiResponse<SingleFileResponseDto> response = new ApiResponse<SingleFileResponseDto>();
+            var yearDir = DateTime.Now.ToString("yyyy");
+            var monthDir = DateTime.Now.ToString("MM");
+            var dayDir = DateTime.Now.ToString("dd");
             var uploadFIle = file;
-            return null;
+            string returnToRelativePath = Path.Combine( Appsettings.app(new string[] { "UploadFilePath", "PicPath" }), yearDir, monthDir, dayDir).Replace("\\", "/");
+            string uploadsFolder = Path.Combine(environment.WebRootPath, Appsettings.app(new string[] { "UploadFilePath", "PicPath" }), yearDir, monthDir, dayDir).Replace("\\", "/");
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + uploadFIle.FileName;
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+
+            var filePathWithFileName = Path.Combine(uploadsFolder, uniqueFileName);
+            using (var stream = new FileStream(filePathWithFileName, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ uniqueFileName, FileName = uploadFIle.FileName };
+            return response;
         }
     }
 }
