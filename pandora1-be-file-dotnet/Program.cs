@@ -15,6 +15,7 @@ namespace pandora1_be_file_dotnet
     {
         public static void Main(string[] args)
         {
+            System.Threading.ThreadPool.SetMinThreads(500, 500);
             CreateHostBuilder(args).Build().Run();
         }
 
