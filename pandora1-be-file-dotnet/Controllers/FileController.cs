@@ -112,7 +112,7 @@ namespace pandora1_be_file_dotnet.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResponse<SingleFileResponseDto>> Upload_Single_File1(IFormFile file,[FromServices] IWebHostEnvironment environment)
+        public async Task<ApiResponse<SingleFileResponseDto>> Upload_Single_File(IFormFile file,[FromServices] IWebHostEnvironment environment)
         {
             ApiResponse<SingleFileResponseDto> response = new ApiResponse<SingleFileResponseDto>();
             var yearDir = DateTime.Now.ToString("yyyy");
