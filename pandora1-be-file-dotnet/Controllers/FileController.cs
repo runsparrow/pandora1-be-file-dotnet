@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using pandora1_be_file_dotnet.Helpers;
 using pandora1_be_file_dotnet.Models.Dto;
+using pandora1_be_file_dotnet.Models.ProxyDto;
+using pandora1_be_file_dotnet.Tools;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,10 +23,13 @@ namespace pandora1_be_file_dotnet.Controllers
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
+        private static RestClient client = new RestClient("https://webapi-xs.com:8001");
+        private readonly IHttpContextAccessor _accessor;
 
-        public FileController(ILogger<FileController> logger)
+        public FileController(ILogger<FileController> logger, IHttpContextAccessor accessor)
         {
             _logger = logger;
+            _accessor = accessor;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -54,6 +60,20 @@ namespace pandora1_be_file_dotnet.Controllers
                 await fs.FlushAsync();
                 fs.Close();
                 Directory.Delete(dir);
+                FileProxyDto dto = new FileProxyDto();
+                dto.status = new StatusProxyDto();
+                dto.name = fileName;
+                dto.url = finalPath;
+                dto.isImage = 1;
+              
+                RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
+                string token = _accessor.HttpContext.Request.Headers["Authorization"];
+                token = token.Replace("Bearer ", "");
+                dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
+                dto.memberName = AuthHelper.GetClaimFromToken(token).Name;
+                client.AddDefaultHeader("Authorization","Bearer "+ token);
+                request.AddJsonBody(dto);
+                await  client.ExecuteAsync(request);
             }
         }
 
