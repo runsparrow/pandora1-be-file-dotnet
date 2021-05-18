@@ -40,6 +40,7 @@ namespace pandora1_be_file_dotnet
             services.AddSqlsugarSetup();
             services.AddSwaggerSetup();
             services.AddAuthorizationSetup();
+            services.AddHttpContextSetup();
             services.AddControllers(options =>
             {
                 options.Filters.Add<GlobalExceptionsFilter>();

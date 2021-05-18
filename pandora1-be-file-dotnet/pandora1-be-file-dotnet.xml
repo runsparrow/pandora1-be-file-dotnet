@@ -4,6 +4,11 @@
         <name>pandora1-be-file-dotnet</name>
     </assembly>
     <members>
+        <member name="T:pandora1_be_file_dotnet.Extensions.HttpContextSetup">
+            <summary>
+            HttpContext 相关服务
+            </summary>
+        </member>
         <member name="M:pandora1_be_file_dotnet.Helpers.ServiceException.#ctor(pandora1_be_file_dotnet.Helpers.ErrorDescriptor)">
             <param name="descriptor"></param>
         </member>
@@ -96,6 +101,42 @@
             <param name="TimeStamp">时间戳</param>
             <param name="AccurateToMilliseconds">是否精确到毫秒</param>
             <returns>返回一个日期时间</returns>
+        </member>
+        <member name="T:pandora1_be_file_dotnet.Tools.AuthHelper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:pandora1_be_file_dotnet.Tools.AuthHelper.GetClaimFromToken(System.String)">
+            <summary>
+            从Claim获取UserId
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:pandora1_be_file_dotnet.Tools.AuthHelper.ClaimEntity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:pandora1_be_file_dotnet.Tools.AuthHelper.ClaimEntity.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:pandora1_be_file_dotnet.Tools.AuthHelper.ClaimEntity.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:pandora1_be_file_dotnet.Tools.AuthHelper.ClaimEntity.RealName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:pandora1_be_file_dotnet.Tools.AuthHelper.ClaimEntity.NickName">
+            <summary>
+            
+            </summary>
         </member>
     </members>
 </doc>
