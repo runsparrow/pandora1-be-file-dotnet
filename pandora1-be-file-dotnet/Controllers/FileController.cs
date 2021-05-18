@@ -23,7 +23,7 @@ namespace pandora1_be_file_dotnet.Controllers
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
-        private static RestClient client = new RestClient("https://webapi-xs.com:8001");
+        private static RestClient client = new RestClient(Appsettings.app(new string[] { "BaseAPIUrl" }));
         private readonly IHttpContextAccessor _accessor;
 
         public FileController(ILogger<FileController> logger, IHttpContextAccessor accessor)
