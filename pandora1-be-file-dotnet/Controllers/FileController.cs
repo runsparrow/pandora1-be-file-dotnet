@@ -74,8 +74,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 _logger.LogInformation(dto.memberId+"||"+dto.memberName);
                 client.AddDefaultHeader("Authorization","Bearer "+ token);
                 request.AddJsonBody(dto);
-                var res=await  client.ExecuteAsync(request);
-                _logger.LogInformation(res.Content);
+                client.Execute(request);
             }
         }
 
