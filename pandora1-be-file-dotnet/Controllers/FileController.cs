@@ -23,13 +23,14 @@ namespace pandora1_be_file_dotnet.Controllers
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
-        private static RestClient client = new RestClient(Appsettings.app(new string[] { "BaseAPIUrl" }));
+        private RestClient _client;
         private readonly IHttpContextAccessor _accessor;
 
-        public FileController(ILogger<FileController> logger, IHttpContextAccessor accessor)
+        public FileController(ILogger<FileController> logger,IHttpContextAccessor accessor)
         {
             _logger = logger;
             _accessor = accessor;
+            _client = new RestClient(Appsettings.app(new string[] { "BaseAPIUrl" }));
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
@@ -72,9 +73,9 @@ namespace pandora1_be_file_dotnet.Controllers
                 dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
                 dto.memberName = AuthHelper.GetClaimFromToken(token).Name;
                 _logger.LogInformation(dto.memberId+"||"+dto.memberName);
-                client.AddDefaultHeader("Authorization","Bearer "+ token);
+                _client.AddDefaultHeader("Authorization","Bearer "+ token);
                 request.AddJsonBody(dto);
-                await client.ExecuteAsync(request);
+                var res=await _client.ExecuteAsync(request);
             }
         }
 
