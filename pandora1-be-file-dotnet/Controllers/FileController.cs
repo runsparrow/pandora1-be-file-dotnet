@@ -38,7 +38,7 @@ namespace pandora1_be_file_dotnet.Controllers
             var yearDir = DateTime.Now.ToString("yyyy");
             var monthDir = DateTime.Now.ToString("MM");
             var dayDir = DateTime.Now.ToString("dd");
-            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "VideoPath" }), yearDir, monthDir, dayDir);
+            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "PicPath" }), yearDir, monthDir, dayDir);
             var dir = tempDir;
             var files = Directory.GetFiles(dir);
             var finalDir = envPath;
@@ -71,9 +71,11 @@ namespace pandora1_be_file_dotnet.Controllers
                 token = token.Replace("Bearer ", "");
                 dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
                 dto.memberName = AuthHelper.GetClaimFromToken(token).Name;
+                _logger.LogInformation(dto.memberId+"||"+dto.memberName);
                 client.AddDefaultHeader("Authorization","Bearer "+ token);
                 request.AddJsonBody(dto);
-                await  client.ExecuteAsync(request);
+                var res=await  client.ExecuteAsync(request);
+                _logger.LogInformation(res.Content);
             }
         }
 
