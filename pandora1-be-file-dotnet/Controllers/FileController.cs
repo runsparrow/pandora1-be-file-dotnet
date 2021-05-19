@@ -64,7 +64,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 FileProxyDto dto = new FileProxyDto();
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
-                dto.url = finalPath;
+                dto.url = "/" + finalPath.Substring(finalPath.IndexOf("uploadFiles")).Replace("\\","/");
                 dto.isImage = 1;
               
                 RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
