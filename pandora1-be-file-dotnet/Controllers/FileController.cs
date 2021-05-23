@@ -19,7 +19,7 @@ namespace pandora1_be_file_dotnet.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
-    [Authorize]
+    //[Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
@@ -64,6 +64,8 @@ namespace pandora1_be_file_dotnet.Controllers
                 FileProxyDto dto = new FileProxyDto();
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
+                dto.classifyName = "";
+              
                 dto.url = "/" + finalPath.Substring(finalPath.IndexOf("uploadFiles")).Replace("\\","/");
                 dto.isImage = 1;
               
@@ -71,7 +73,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 string token = _accessor.HttpContext.Request.Headers["Authorization"];
                 token = token.Replace("Bearer ", "");
                 dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
-                dto.memberName = AuthHelper.GetClaimFromToken(token).Name;
+                dto.memberName = dto.ownerName  = AuthHelper.GetClaimFromToken(token).Name;
                 _logger.LogInformation(dto.memberId+"||"+dto.memberName);
                 _client.AddDefaultHeader("Authorization","Bearer "+ token);
                 request.AddJsonBody(dto);
