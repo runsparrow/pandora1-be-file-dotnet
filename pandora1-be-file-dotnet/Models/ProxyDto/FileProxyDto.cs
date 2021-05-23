@@ -30,7 +30,7 @@ namespace pandora1_be_file_dotnet.Models.ProxyDto
         public int downCount { get; set; } = 0;
         public int collectCount { get; set; } = 0;
         public int buyCount { get; set; } = 0;
-        public int ownerId { get; set; } = "";
+        public int ownerId { get; set; }=-1;
         public string ownerName { get; set; }
         public string publicDateTime { get; set; } = DateTime.Now.ToString();
         public string finalDateTime { get; set; } = DateTime.Now.ToString();
