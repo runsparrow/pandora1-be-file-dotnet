@@ -65,7 +65,9 @@ namespace pandora1_be_file_dotnet.Controllers
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
                 dto.classifyName = "";
-              
+                dto.statusKey = "cms.goods.init";
+
+
                 dto.url = "/" + finalPath.Substring(finalPath.IndexOf("uploadFiles")).Replace("\\","/");
                 dto.isImage = 1;
               
