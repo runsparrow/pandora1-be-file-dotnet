@@ -8,6 +8,7 @@ namespace pandora1_be_file_dotnet.Models.ProxyDto
     public class FileProxyDto
     {
         public int id { get; set; }
+        public string statusKey { get; set; } = "";
         public string name { get; set; } = "";
         public string goodsNo { get; set; } = "";
         public string tags { get; set; } = "";
