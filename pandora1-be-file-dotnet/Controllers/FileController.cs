@@ -36,10 +36,22 @@ namespace pandora1_be_file_dotnet.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private async Task MergeFileAsync(string rootDir, string fileName, string tempDir)
         {
+            List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+            List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v", ".wmv", ".avi", ".flv" };
+            string suffix = Path.GetExtension(fileName);
+            string fileAppSettingPath = "";
+            if (allowPicSuffixAr.IndexOf(suffix)!=-1)
+            {
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
+            }
+            if (allowViewSuffixAr.IndexOf(suffix) != -1)
+            {
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
+            }
             var yearDir = DateTime.Now.ToString("yyyy");
             var monthDir = DateTime.Now.ToString("MM");
             var dayDir = DateTime.Now.ToString("dd");
-            string envPath = Path.Combine(rootDir , Appsettings.app(new string[] { "UploadFilePath", "PicPath" }), yearDir, monthDir, dayDir);
+            string envPath = Path.Combine(rootDir , fileAppSettingPath, yearDir, monthDir, dayDir);
             var dir = tempDir;
             var files = Directory.GetFiles(dir);
             var finalDir = envPath;
@@ -48,6 +60,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 Directory.CreateDirectory(finalDir);
             }
             var finalPath = Path.Combine(finalDir, fileName);
+      
             using (var fs = new FileStream(finalPath, FileMode.Create))
             {
                 var fileParts = files.OrderBy(x => x.Length).ThenBy(x => x);
