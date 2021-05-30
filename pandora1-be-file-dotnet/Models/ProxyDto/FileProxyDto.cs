@@ -39,7 +39,7 @@ namespace pandora1_be_file_dotnet.Models.ProxyDto
         public int statusId { get; set; } = -1;
         public string statusName { get; set; } = "";
         public int statusValue { get; set; } = 0;
-        public string createDateTime { get; set; }
+        public string createDateTime { get; set; } = "";
         public int createUserId { get; set; } = -1;
         public string editDateTime { get; set; }
         public int editUserId { get; set; } = -1;
@@ -56,7 +56,7 @@ namespace pandora1_be_file_dotnet.Models.ProxyDto
         public string key { get; set; } = "";
         public int value { get; set; } = 0;
         public string desc { get; set; } = "";
-        public string createDateTime { get; set; }
+        public string createDateTime { get; set; } = "";
         public int createUserId { get; set; } = -1;
         public string editDateTime { get; set; }
         public int editUserId { get; set; } = -1;
