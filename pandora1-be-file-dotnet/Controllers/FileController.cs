@@ -12,14 +12,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace pandora1_be_file_dotnet.Controllers
 {
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
-    [Authorize]
+    //[Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
@@ -175,6 +177,20 @@ namespace pandora1_be_file_dotnet.Controllers
             }
             response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ uniqueFileName, FileName = uploadFIle.FileName };
             return response;
+        }
+
+        [HttpPost]
+        public FileStreamResult FileDownload([FromServices] IWebHostEnvironment environment,string fileUrl)
+        {
+            string foldername = "";
+            string filepath = Path.Combine(environment.WebRootPath, fileUrl);
+            var stream = System.IO.File.OpenRead(filepath);
+            string fileExt = fileUrl.Substring(fileUrl.IndexOf('.'));  // 这里可以写一个获取文件扩展名的方法，获取扩展名
+            //获取文件的ContentType
+            var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+            var memi = provider.Mappings[fileExt];
+            var fileName = Path.GetFileName(filepath);
+            return File(stream, memi, HttpUtility.UrlEncode(fileName, Encoding.GetEncoding("UTF-8")));
         }
     }
 }
