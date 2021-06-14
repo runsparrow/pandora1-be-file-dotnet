@@ -180,12 +180,12 @@ namespace pandora1_be_file_dotnet.Controllers
         }
 
         [HttpPost]
-        public FileStreamResult FileDownload(string fileUrl,[FromServices] IWebHostEnvironment environment)
+        public FileStreamResult FileDownload(FileDownloadDto fileDto, [FromServices] IWebHostEnvironment environment)
         {
             string foldername = "";
-            string filepath = Path.Combine(environment.WebRootPath, fileUrl);
+            string filepath = Path.Combine(environment.WebRootPath, fileDto.FileUrl);
             var stream = System.IO.File.OpenRead(filepath);
-            string fileExt = fileUrl.Substring(fileUrl.LastIndexOf('.'));  // 这里可以写一个获取文件扩展名的方法，获取扩展名
+            string fileExt = fileDto.FileUrl.Substring(fileDto.FileUrl.LastIndexOf('.'));  // 这里可以写一个获取文件扩展名的方法，获取扩展名
             //获取文件的ContentType
             var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
             var memi = provider.Mappings[fileExt];
