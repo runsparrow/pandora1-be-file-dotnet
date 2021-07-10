@@ -80,6 +80,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
                 dto.classifyName = "";
+                dto.ext = fileName.Substring(fileName.LastIndexOf(".") + 1);
                 dto.statusKey = "cms.goods.init";
 
 
