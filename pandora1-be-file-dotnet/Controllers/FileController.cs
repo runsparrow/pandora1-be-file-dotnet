@@ -41,13 +41,16 @@ namespace pandora1_be_file_dotnet.Controllers
             List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
             List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v", ".wmv", ".avi", ".flv" };
             string suffix = Path.GetExtension(fileName);
+            int isImage = 1;
             string fileAppSettingPath = "";
             if (allowPicSuffixAr.IndexOf(suffix)!=-1)
             {
+                isImage = 0;
                 fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
             }
             if (allowViewSuffixAr.IndexOf(suffix) != -1)
             {
+                isImage = 1;
                 fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
             }
             var yearDir = DateTime.Now.ToString("yyyy");
@@ -80,6 +83,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
                 dto.classifyName = "";
+                dto.isImage = isImage;
                 dto.ext = fileName.Substring(fileName.LastIndexOf(".") + 1);
                 dto.statusKey = "cms.goods.init";
 
