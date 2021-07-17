@@ -21,7 +21,7 @@ namespace pandora1_be_file_dotnet.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
-    //[Authorize]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
@@ -91,8 +91,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 dto.statusKey = "cms.goods.init";
 
 
-                dto.url = "/" + finalPath.Substring(finalPath.IndexOf("uploadFiles")).Replace("\\","/");
-                dto.isImage = 1;
+                dto.url = "/" + finalPath.Substring(finalPath.IndexOf("uploadFiles")).Replace("\\", "/");
               
                 RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
                 string token = _accessor.HttpContext.Request.Headers["Authorization"];
