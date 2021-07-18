@@ -163,12 +163,25 @@ namespace pandora1_be_file_dotnet.Controllers
         public async Task<ApiResponse<SingleFileResponseDto>> Upload_Single_File(IFormFile file,[FromServices] IWebHostEnvironment environment)
         {
             ApiResponse<SingleFileResponseDto> response = new ApiResponse<SingleFileResponseDto>();
+            string suffix = Path.GetExtension(file.FileName);
+            List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+            List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v", ".wmv", ".avi", ".flv" };
+            string fileAppSettingPath = "";
+            if (allowViewSuffixAr.IndexOf(suffix) != -1)
+            {
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
+            }
+            if (allowPicSuffixAr.IndexOf(suffix) != -1)
+            {
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
+            }
+
             var yearDir = DateTime.Now.ToString("yyyy");
             var monthDir = DateTime.Now.ToString("MM");
             var dayDir = DateTime.Now.ToString("dd");
             var uploadFIle = file;
-            string returnToRelativePath = Path.Combine( Appsettings.app(new string[] { "UploadFilePath", "PicPath" }), yearDir, monthDir, dayDir).Replace("\\", "/");
-            string uploadsFolder = Path.Combine(environment.WebRootPath, Appsettings.app(new string[] { "UploadFilePath", "PicPath" }), yearDir, monthDir, dayDir).Replace("\\", "/");
+            string returnToRelativePath = Path.Combine(fileAppSettingPath, yearDir, monthDir, dayDir).Replace("\\", "/");
+            string uploadsFolder = Path.Combine(environment.WebRootPath, fileAppSettingPath, yearDir, monthDir, dayDir).Replace("\\", "/");
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + uploadFIle.FileName;
 
             if (!Directory.Exists(uploadsFolder))
