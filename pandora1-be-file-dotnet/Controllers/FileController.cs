@@ -10,6 +10,7 @@ using pandora1_be_file_dotnet.Tools;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -79,8 +80,10 @@ namespace pandora1_be_file_dotnet.Controllers
                     System.IO.File.Delete(part);
                 }
                 await fs.FlushAsync();
+                Image img = Image.FromStream(fs);
                 fs.Close();
                 Directory.Delete(dir);
+       
                 FileProxyDto dto = new FileProxyDto();
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
@@ -89,6 +92,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 dto.isImage = isImage;
                 dto.ext = fileName.Substring(fileName.LastIndexOf(".") + 1);
                 dto.statusKey = "cms.goods.init";
+                dto.dpi = img.Width + "*" + img.Height;
 
 
                 dto.url = "/" + finalPath.Substring(finalPath.IndexOf("uploadFiles")).Replace("\\", "/");
@@ -191,11 +195,13 @@ namespace pandora1_be_file_dotnet.Controllers
 
 
             var filePathWithFileName = Path.Combine(uploadsFolder, uniqueFileName);
+        
             using (var stream = new FileStream(filePathWithFileName, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ uniqueFileName, FileName = uploadFIle.FileName };
+            Image img = Image.FromFile(filePathWithFileName);
+            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ uniqueFileName, FileName = uploadFIle.FileName, Dpi= img.Width+"*"+ img.Height };
             return response;
         }
 
