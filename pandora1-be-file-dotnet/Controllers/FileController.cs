@@ -47,12 +47,12 @@ namespace pandora1_be_file_dotnet.Controllers
             if (allowViewSuffixAr.IndexOf(suffix)!=-1)
             {
                 isImage = 0;
-                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
             }
             if (allowPicSuffixAr.IndexOf(suffix) != -1)
             {
                 isImage = 1;
-                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
             }
             var yearDir = DateTime.Now.ToString("yyyy");
             var monthDir = DateTime.Now.ToString("MM");
@@ -169,11 +169,11 @@ namespace pandora1_be_file_dotnet.Controllers
             string fileAppSettingPath = "";
             if (allowViewSuffixAr.IndexOf(suffix) != -1)
             {
-                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
             }
             if (allowPicSuffixAr.IndexOf(suffix) != -1)
             {
-                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
             }
 
             var yearDir = DateTime.Now.ToString("yyyy");
