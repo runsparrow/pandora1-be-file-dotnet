@@ -9,6 +9,5 @@ namespace pandora1_be_file_dotnet.Models.Dto
     {
         public string RelativePath { get; set; }
         public string FileName { get; set; }
-        public string Dpi { get; set; }
     }
 }
