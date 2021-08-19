@@ -22,7 +22,7 @@ namespace pandora1_be_file_dotnet.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
-    //[Authorize]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
@@ -83,8 +83,29 @@ namespace pandora1_be_file_dotnet.Controllers
                 Image img = Image.FromStream(fs);
                 fs.Close();
                 Directory.Delete(dir);
-       
                 FileProxyDto dto = new FileProxyDto();
+                if (allowViewSuffixAr.IndexOf(suffix) != -1)
+                {
+                    //vidoe
+                }
+                if (allowPicSuffixAr.IndexOf(suffix) != -1)
+                {
+                    //pic
+                    dto.dpi = img.Width + "*" + img.Height;
+                    using (var graphic = Graphics.FromImage(img))
+                    {
+                        var font = new Font(FontFamily.GenericSansSerif, 50, FontStyle.Bold, GraphicsUnit.Pixel);
+                        var color = Color.FromArgb(128, 255, 255, 255);
+                        var brush = new SolidBrush(color);
+                        var point = new Point(img.Width - 140, img.Height - 60);
+
+                        graphic.DrawString("T-pic", font, brush, point);
+                    }
+                    finalPath = finalPath.Replace(fileName, "_" + fileName);
+                    img.Save(finalPath);
+                }
+
+               
                 dto.status = new StatusProxyDto();
                 dto.name = fileName;
                 dto.size = bytesLength+"";
@@ -193,17 +214,36 @@ namespace pandora1_be_file_dotnet.Controllers
                 Directory.CreateDirectory(uploadsFolder);
             }
 
-
+            FileProxyDto dto = new FileProxyDto();
             var filePathWithFileName = Path.Combine(uploadsFolder, uniqueFileName);
-        
+
             using (var stream = new FileStream(filePathWithFileName, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            Image img = Image.FromFile(filePathWithFileName);
 
+            if (allowViewSuffixAr.IndexOf(suffix) != -1)
+            {
+                //vidoe
+            }
+            if (allowPicSuffixAr.IndexOf(suffix) != -1)
+            {
+                //pic
+                Image img = Image.FromFile(filePathWithFileName);
+                dto.dpi = img.Width + "*" + img.Height;
+                using (var graphic = Graphics.FromImage(img))
+                {
+                    var font = new Font(FontFamily.GenericSansSerif, 50, FontStyle.Bold, GraphicsUnit.Pixel);
+                    var color = Color.FromArgb(128, 255, 255, 255);
+                    var brush = new SolidBrush(color);
+                    var point = new Point(img.Width - 140, img.Height - 60);
 
-            FileProxyDto dto = new FileProxyDto();
+                    graphic.DrawString("T-pic", font, brush, point);
+                }
+                filePathWithFileName = filePathWithFileName.Replace(uniqueFileName,"_"+ uniqueFileName);
+                img.Save(filePathWithFileName);
+            }
+
             dto.status = new StatusProxyDto();
             dto.name = filePathWithFileName.Substring(filePathWithFileName.LastIndexOf("\\")+1);
             dto.size = file.Length + "";
@@ -211,9 +251,7 @@ namespace pandora1_be_file_dotnet.Controllers
             dto.isImage = 1;
             dto.ext = suffix;
             dto.statusKey = "cms.goods.init";
-            dto.dpi = img.Width + "*" + img.Height;
-
-
+           
             dto.url = "/" + filePathWithFileName.Substring(filePathWithFileName.IndexOf("uploadFiles")).Replace("\\", "/");
 
             RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
