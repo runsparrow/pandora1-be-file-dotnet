@@ -221,7 +221,7 @@ namespace pandora1_be_file_dotnet.Controllers
             {
                 await file.CopyToAsync(stream);
             }
-
+            string dpi = "";
             if (allowViewSuffixAr.IndexOf(suffix) != -1)
             {
                 //vidoe
@@ -230,7 +230,7 @@ namespace pandora1_be_file_dotnet.Controllers
             {
                 //pic
                 Image img = Image.FromFile(filePathWithFileName);
-                dto.dpi = img.Width + "*" + img.Height;
+                dpi = img.Width + "*" + img.Height;
                 using (var graphic = Graphics.FromImage(img))
                 {
                     var font = new Font(FontFamily.GenericSansSerif, 50, FontStyle.Bold, GraphicsUnit.Pixel);
@@ -240,31 +240,31 @@ namespace pandora1_be_file_dotnet.Controllers
 
                     graphic.DrawString("T-pic", font, brush, point);
                 }
-                filePathWithFileName = filePathWithFileName.Replace(uniqueFileName,"_"+ uniqueFileName);
+                filePathWithFileName = filePathWithFileName.Replace(uniqueFileName, "_" + uniqueFileName);
                 img.Save(filePathWithFileName);
             }
 
-            dto.status = new StatusProxyDto();
-            dto.name = filePathWithFileName.Substring(filePathWithFileName.LastIndexOf("\\")+1);
-            dto.size = file.Length + "";
-            dto.classifyName = "";
-            dto.isImage = 1;
-            dto.ext = suffix;
-            dto.statusKey = "cms.goods.init";
-           
-            dto.url = "/" + filePathWithFileName.Substring(filePathWithFileName.IndexOf("uploadFiles")).Replace("\\", "/");
+            //dto.status = new StatusProxyDto();
+            //dto.name = filePathWithFileName.Substring(filePathWithFileName.LastIndexOf("\\")+1);
+            //dto.size = file.Length + "";
+            //dto.classifyName = "";
+            //dto.isImage = 1;
+            //dto.ext = suffix;
+            //dto.statusKey = "cms.goods.init";
 
-            RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
-            string token = _accessor.HttpContext.Request.Headers["Authorization"];
-            token = token.Replace("Bearer ", "");
-            dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
-            dto.memberName = dto.ownerName = AuthHelper.GetClaimFromToken(token).Name;
-            _logger.LogInformation(dto.memberId + "||" + dto.memberName);
-            _client.AddDefaultHeader("Authorization", "Bearer " + token);
-            request.AddJsonBody(dto);
-            var res = await _client.ExecuteAsync(request);
+            //dto.url = "/" + filePathWithFileName.Substring(filePathWithFileName.IndexOf("uploadFiles")).Replace("\\", "/");
 
-            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ "_"+uniqueFileName, FileName = uploadFIle.FileName };
+            //RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
+            //string token = _accessor.HttpContext.Request.Headers["Authorization"];
+            //token = token.Replace("Bearer ", "");
+            //dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
+            //dto.memberName = dto.ownerName = AuthHelper.GetClaimFromToken(token).Name;
+            //_logger.LogInformation(dto.memberId + "||" + dto.memberName);
+            //_client.AddDefaultHeader("Authorization", "Bearer " + token);
+            //request.AddJsonBody(dto);
+            //var res = await _client.ExecuteAsync(request);
+
+            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ "_"+uniqueFileName, FileName = uploadFIle.FileName,Dpi= dpi };
             return response;
         }
 
