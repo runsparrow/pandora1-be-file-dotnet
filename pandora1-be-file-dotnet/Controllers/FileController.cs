@@ -264,7 +264,7 @@ namespace pandora1_be_file_dotnet.Controllers
             request.AddJsonBody(dto);
             var res = await _client.ExecuteAsync(request);
 
-            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ uniqueFileName, FileName = uploadFIle.FileName };
+            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ "_"+uniqueFileName, FileName = uploadFIle.FileName };
             return response;
         }
 
