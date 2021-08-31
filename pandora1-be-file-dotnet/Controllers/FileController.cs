@@ -94,14 +94,14 @@ namespace pandora1_be_file_dotnet.Controllers
                     dto.dpi = img.Width + "*" + img.Height;
                     using (var graphic = Graphics.FromImage(img))
                     {
-                        var font = new Font(FontFamily.GenericSansSerif, 50, FontStyle.Bold, GraphicsUnit.Pixel);
+                        var font = new Font(FontFamily.GenericSansSerif, 120, FontStyle.Bold, GraphicsUnit.Pixel);
                         var color = Color.FromArgb(128, 255, 255, 255);
                         var brush = new SolidBrush(color);
-                        var point = new Point(img.Width - 140, img.Height - 60);
+                        var point = new Point((img.Width / 2) - ((img.Width / 2) / 2) - 20, (img.Height / 2) - ((img.Height / 2) / 2));
 
                         graphic.DrawString("T-pic", font, brush, point);
                     }
-                    finalPath = finalPath.Replace(fileName, "_" + fileName);
+                    finalPath = finalPath.Replace(fileName, "$" + fileName);
                     img.Save(finalPath);
                 }
 
@@ -233,14 +233,14 @@ namespace pandora1_be_file_dotnet.Controllers
                 dpi = img.Width + "*" + img.Height;
                 using (var graphic = Graphics.FromImage(img))
                 {
-                    var font = new Font(FontFamily.GenericSansSerif, 50, FontStyle.Bold, GraphicsUnit.Pixel);
+                    var font = new Font(FontFamily.GenericSansSerif, 120, FontStyle.Bold, GraphicsUnit.Pixel);
                     var color = Color.FromArgb(128, 255, 255, 255);
                     var brush = new SolidBrush(color);
-                    var point = new Point(img.Width - 140, img.Height - 60);
+                    var point = new Point((img.Width/2)- ((img.Width / 2)/2)-20, (img.Height / 2) - ((img.Height / 2) / 2));
 
                     graphic.DrawString("T-pic", font, brush, point);
                 }
-                filePathWithFileName = filePathWithFileName.Replace(uniqueFileName, "_" + uniqueFileName);
+                filePathWithFileName = filePathWithFileName.Replace(uniqueFileName, "$" + uniqueFileName);
                 img.Save(filePathWithFileName);
             }
 
@@ -264,7 +264,7 @@ namespace pandora1_be_file_dotnet.Controllers
             //request.AddJsonBody(dto);
             //var res = await _client.ExecuteAsync(request);
 
-            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ "_"+uniqueFileName, FileName = uploadFIle.FileName,Dpi= dpi };
+            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ "$" + uniqueFileName, FileName = uploadFIle.FileName,Dpi= dpi };
             return response;
         }
 
@@ -272,7 +272,7 @@ namespace pandora1_be_file_dotnet.Controllers
         public FileStreamResult FileDownload(FileDownloadDto fileDto, [FromServices] IWebHostEnvironment environment)
         {
             string foldername = "";
-            string filepath = Path.Combine(environment.WebRootPath, fileDto.FileUrl);
+            string filepath = Path.Combine(environment.WebRootPath, fileDto.FileUrl.Replace("$",""));
             var stream = System.IO.File.OpenRead(filepath);
             string fileExt = fileDto.FileUrl.Substring(fileDto.FileUrl.LastIndexOf('.'));  // 这里可以写一个获取文件扩展名的方法，获取扩展名
             //获取文件的ContentType
