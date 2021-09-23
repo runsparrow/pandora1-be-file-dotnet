@@ -94,7 +94,7 @@ namespace pandora1_be_file_dotnet.Controllers
                     dto.dpi = img.Width + "*" + img.Height;
                     using (var graphic = Graphics.FromImage(img))
                     {
-                        var font = new Font(FontFamily.GenericSansSerif, 120, FontStyle.Bold, GraphicsUnit.Pixel);
+                        var font = new Font(FontFamily.GenericSansSerif, 800, FontStyle.Bold, GraphicsUnit.Pixel);
                         var color = Color.FromArgb(128, 255, 255, 255);
                         var brush = new SolidBrush(color);
                         var point = new Point((img.Width / 2) - ((img.Width / 2) / 2) - 20, (img.Height / 2) - ((img.Height / 2) / 2));
@@ -233,7 +233,7 @@ namespace pandora1_be_file_dotnet.Controllers
                 dpi = img.Width + "*" + img.Height;
                 using (var graphic = Graphics.FromImage(img))
                 {
-                    var font = new Font(FontFamily.GenericSansSerif, 120, FontStyle.Bold, GraphicsUnit.Pixel);
+                    var font = new Font(FontFamily.GenericSansSerif, 800, FontStyle.Bold, GraphicsUnit.Pixel);
                     var color = Color.FromArgb(128, 255, 255, 255);
                     var brush = new SolidBrush(color);
                     var point = new Point((img.Width/2)- ((img.Width / 2)/2)-20, (img.Height / 2) - ((img.Height / 2) / 2));
