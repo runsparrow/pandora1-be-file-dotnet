@@ -94,12 +94,12 @@ namespace pandora1_be_file_dotnet.Controllers
                     dto.dpi = img.Width + "*" + img.Height;
                     using (var graphic = Graphics.FromImage(img))
                     {
-                        var font = new Font(FontFamily.GenericSansSerif, 120, FontStyle.Bold, GraphicsUnit.Pixel);
+                        var font = new Font(FontFamily.GenericSansSerif, 800, FontStyle.Bold, GraphicsUnit.Pixel);
                         var color = Color.FromArgb(128, 255, 255, 255);
                         var brush = new SolidBrush(color);
                         var point = new Point((img.Width / 2) - ((img.Width / 2) / 2) - 20, (img.Height / 2) - ((img.Height / 2) / 2));
 
-                        graphic.DrawString("T-pic", font, brush, point);
+                        graphic.DrawString("t-pic.cn", font, brush, point);
                     }
                     finalPath = finalPath.Replace(fileName, "$" + fileName);
                     img.Save(finalPath);
@@ -233,12 +233,12 @@ namespace pandora1_be_file_dotnet.Controllers
                 dpi = img.Width + "*" + img.Height;
                 using (var graphic = Graphics.FromImage(img))
                 {
-                    var font = new Font(FontFamily.GenericSansSerif, 120, FontStyle.Bold, GraphicsUnit.Pixel);
+                    var font = new Font(FontFamily.GenericSansSerif, 800, FontStyle.Bold, GraphicsUnit.Pixel);
                     var color = Color.FromArgb(128, 255, 255, 255);
                     var brush = new SolidBrush(color);
                     var point = new Point((img.Width/2)- ((img.Width / 2)/2)-20, (img.Height / 2) - ((img.Height / 2) / 2));
 
-                    graphic.DrawString("T-pic", font, brush, point);
+                    graphic.DrawString("t-pic.cn", font, brush, point);
                 }
                 filePathWithFileName = filePathWithFileName.Replace(uniqueFileName, "$" + uniqueFileName);
                 img.Save(filePathWithFileName);
@@ -265,6 +265,79 @@ namespace pandora1_be_file_dotnet.Controllers
             //var res = await _client.ExecuteAsync(request);
 
             response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" })+returnToRelativePath+"/"+ "$" + uniqueFileName, FileName = uploadFIle.FileName,Dpi= dpi };
+            return response;
+        }
+
+        [HttpPost]
+        public async Task<ApiResponse<SingleFileResponseDto>> Upload_HeaderLogo_Single_File(IFormFile file, [FromServices] IWebHostEnvironment environment)
+        {
+            ApiResponse<SingleFileResponseDto> response = new ApiResponse<SingleFileResponseDto>();
+            string suffix = Path.GetExtension(file.FileName);
+            List<string> allowPicSuffixAr = new List<string> { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+            List<string> allowViewSuffixAr = new List<string> { ".mp4", ".mkv", ".mov", ".m4v", ".wmv", ".avi", ".flv" };
+            string fileAppSettingPath = "";
+            if (allowViewSuffixAr.IndexOf(suffix) != -1)
+            {
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "VideoPath" });
+            }
+            if (allowPicSuffixAr.IndexOf(suffix) != -1)
+            {
+                fileAppSettingPath = Appsettings.app(new string[] { "UploadFilePath", "PicPath" });
+            }
+
+            var yearDir = DateTime.Now.ToString("yyyy");
+            var monthDir = DateTime.Now.ToString("MM");
+            var dayDir = DateTime.Now.ToString("dd");
+            var uploadFIle = file;
+            string returnToRelativePath = Path.Combine(fileAppSettingPath, yearDir, monthDir, dayDir).Replace("\\", "/");
+            string uploadsFolder = Path.Combine(environment.WebRootPath, fileAppSettingPath, yearDir, monthDir, dayDir).Replace("\\", "/");
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + uploadFIle.FileName;
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            FileProxyDto dto = new FileProxyDto();
+            var filePathWithFileName = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var stream = new FileStream(filePathWithFileName, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            string dpi = "";
+            if (allowViewSuffixAr.IndexOf(suffix) != -1)
+            {
+                //vidoe
+            }
+            if (allowPicSuffixAr.IndexOf(suffix) != -1)
+            {
+                //pic
+                Image img = Image.FromFile(filePathWithFileName);
+                dpi = img.Width + "*" + img.Height;
+            }
+
+            //dto.status = new StatusProxyDto();
+            //dto.name = filePathWithFileName.Substring(filePathWithFileName.LastIndexOf("\\")+1);
+            //dto.size = file.Length + "";
+            //dto.classifyName = "";
+            //dto.isImage = 1;
+            //dto.ext = suffix;
+            //dto.statusKey = "cms.goods.init";
+
+            //dto.url = "/" + filePathWithFileName.Substring(filePathWithFileName.IndexOf("uploadFiles")).Replace("\\", "/");
+
+            //RestRequest request = new RestRequest("/MIS/CMS/MemberAction/Upload", Method.POST);
+            //string token = _accessor.HttpContext.Request.Headers["Authorization"];
+            //token = token.Replace("Bearer ", "");
+            //dto.memberId = AuthHelper.GetClaimFromToken(token).Id;
+            //dto.memberName = dto.ownerName = AuthHelper.GetClaimFromToken(token).Name;
+            //_logger.LogInformation(dto.memberId + "||" + dto.memberName);
+            //_client.AddDefaultHeader("Authorization", "Bearer " + token);
+            //request.AddJsonBody(dto);
+            //var res = await _client.ExecuteAsync(request);
+
+            response.Data = new SingleFileResponseDto { RelativePath = Appsettings.app(new string[] { "UploadFilePath", "Uri" }) + returnToRelativePath + "/"  + uniqueFileName, FileName = uploadFIle.FileName, Dpi = dpi };
             return response;
         }
 
