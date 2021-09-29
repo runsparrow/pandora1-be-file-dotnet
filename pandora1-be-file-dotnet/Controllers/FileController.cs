@@ -99,7 +99,7 @@ namespace pandora1_be_file_dotnet.Controllers
                         var brush = new SolidBrush(color);
                         var point = new Point((img.Width / 2) - ((img.Width / 2) / 2) - 20, (img.Height / 2) - ((img.Height / 2) / 2));
 
-                        graphic.DrawString("T-pic", font, brush, point);
+                        graphic.DrawString("t-pic.cn", font, brush, point);
                     }
                     finalPath = finalPath.Replace(fileName, "$" + fileName);
                     img.Save(finalPath);
@@ -238,7 +238,7 @@ namespace pandora1_be_file_dotnet.Controllers
                     var brush = new SolidBrush(color);
                     var point = new Point((img.Width/2)- ((img.Width / 2)/2)-20, (img.Height / 2) - ((img.Height / 2) / 2));
 
-                    graphic.DrawString("T-pic", font, brush, point);
+                    graphic.DrawString("t-pic.cn", font, brush, point);
                 }
                 filePathWithFileName = filePathWithFileName.Replace(uniqueFileName, "$" + uniqueFileName);
                 img.Save(filePathWithFileName);
