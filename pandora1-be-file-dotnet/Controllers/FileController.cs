@@ -23,7 +23,7 @@ namespace pandora1_be_file_dotnet.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "file")]
     [Route("v1/api/[Controller]/[action]")]
-    //[Authorize]
+    [Authorize]
     public class FileController : ControllerBase
     {
         private readonly ILogger<FileController> _logger;
