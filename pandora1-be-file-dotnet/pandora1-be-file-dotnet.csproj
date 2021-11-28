@@ -39,6 +39,9 @@
     <None Update="pandora1-be-file-dotnet.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="t-pic-cn-iis-1128142825.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="webapi-xs-com-iis-0505161240.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
