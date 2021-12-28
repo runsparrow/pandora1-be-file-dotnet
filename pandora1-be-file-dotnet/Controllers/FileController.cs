@@ -91,16 +91,16 @@ namespace pandora1_be_file_dotnet.Controllers
                 if (allowPicSuffixAr.IndexOf(suffix) != -1)
                 {
                     //pic
-                    dto.dpi = img.Width + "*" + img.Height;
-                    using (var graphic = Graphics.FromImage(img))
-                    {
-                        var font = new Font(FontFamily.GenericSansSerif, 800, FontStyle.Bold, GraphicsUnit.Pixel);
-                        var color = Color.FromArgb(128, 255, 255, 255);
-                        var brush = new SolidBrush(color);
-                        var point = new Point((img.Width / 2) - ((img.Width / 2) / 2) - 20, (img.Height / 2) - ((img.Height / 2) / 2));
+                    //dto.dpi = img.Width + "*" + img.Height;
+                    //using (var graphic = Graphics.FromImage(img))
+                    //{
+                    //    var font = new Font(FontFamily.GenericSansSerif, 800, FontStyle.Bold, GraphicsUnit.Pixel);
+                    //    var color = Color.FromArgb(128, 255, 255, 255);
+                    //    var brush = new SolidBrush(color);
+                    //    var point = new Point((img.Width / 2) - ((img.Width / 2) / 2) - 20, (img.Height / 2) - ((img.Height / 2) / 2));
 
-                        graphic.DrawString("", font, brush, point);
-                    }
+                    //    graphic.DrawString("", font, brush, point);
+                    //}
                     finalPath = finalPath.Replace(fileName, "$" + fileName);
                     img.Save(finalPath);
                 }
