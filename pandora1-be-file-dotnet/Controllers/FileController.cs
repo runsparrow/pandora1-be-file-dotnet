@@ -66,7 +66,8 @@ namespace pandora1_be_file_dotnet.Controllers
             {
                 Directory.CreateDirectory(finalDir);
             }
-            var finalPath = Path.Combine(finalDir, fileName);
+            fileName = "$" + fileName;
+            var finalPath = Path.Combine(finalDir,  fileName);
       
             using (var fs = new FileStream(finalPath, FileMode.Create))
             {
@@ -101,8 +102,8 @@ namespace pandora1_be_file_dotnet.Controllers
 
                     //    graphic.DrawString("", font, brush, point);
                     //}
-                    finalPath = finalPath.Replace(fileName, "$" + fileName);
-                    img.Save(finalPath);
+                    //finalPath = finalPath.Replace(fileName, "$" + fileName);
+                    //img.Save(finalPath);
                 }
 
                
